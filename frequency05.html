@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> frequency05 </title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Stick+No+Bills">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka+One">
+    <link rel="icon" href="favicon.ico" type="image/x-icon" >
+</head>
+
+<style>
+    body {
+        background: rgb(22, 22, 22);
+    }  
+    
+    #titleBox {
+        text-align: center;
+        justify-content: center;
+        display: block;
+        width: 100%;
+        height: 75px;
+        font-size: 50px;
+        font-family: Fredoka One;
+        color:rgb(18, 161, 37);
+    }
+
+    #count {
+        text-align: center;
+        justify-content: center;
+        display: block;
+        width: 100%;
+        height: 75px;
+        font-size: 35px;
+        font-family: Fredoka One;
+        color:rgb(18, 161, 37);
+    }
+
+    #spacer {
+        text-align: center;
+        justify-content: center;
+        display: block;
+        width: 100%;
+        height: 30px;
+    }
+
+    #spacerSmall {
+        text-align: center;
+        justify-content: center;
+        display: block;
+        width: 100%;
+        height: 15px;
+    }
+
+    #buttons {
+        text-align: center;
+        justify-content: center;
+        display: block;
+        width: 100%;
+        height: 30px;
+    }
+
+    button {
+        font-family: Fredoka One;
+        height: 24px;
+        border-radius: 6px;
+        border-width: 0px;
+        margin-left: 10px;
+        background-color: rgb(18, 161, 37);
+        transition-duration: 0.4s;
+        width: 90px;
+    }
+
+    input{
+        height: 25px;
+        width: 90px;
+        border-radius: 6px;
+        border-width: 0px;
+        background-color: rgb(18, 161, 37);
+        font-family: Fredoka One;
+        margin-left: 10px;
+        text-align: center;
+    }
+
+    button:hover {
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <div id = "titleBox"> frequency05 </div>
+
+    <div id = "spacer"></div>
+
+    <div id = "buttons">
+        <button id = "start" onclick = "start()"> start </button>
+        <input id = "frequency" value = "500" />
+        <button id = "stop" onclick = "reload()"> stop </button>
+    </div>
+
+    <div id = "spacerSmall"></div>
+
+    <div id = "buttons">
+        <input id = "time" value = "1" />
+    </div>
+
+    <script>
+        function reload() {
+            location.reload()
+        }
+
+        var audioContext = new AudioContext()
+
+        function playFrequency(frequency, time) {
+
+            var sampleRate = audioContext.sampleRate;
+            var duration = time*sampleRate;
+            var numChannels = 1;
+            var buffer  = audioContext.createBuffer(numChannels, duration, sampleRate);
+
+            var channelData = buffer.getChannelData(0);
+            for (var i = 0; i < duration; i++) {
+                channelData[i]=Math.sin(2*Math.PI*frequency*i/(sampleRate));
+            }
+
+            var source = audioContext.createBufferSource();
+            source.buffer = buffer;
+            source.connect(audioContext.destination);
+
+            source.start(0);
+        }
+
+        function start() {
+            playFrequency(document.getElementById("frequency").value, document.getElementById("time").value)
+        }
+
+        document.addEventListener("keydown", (event) => {
+            if (event.code === 'Enter' && document.getElementById("frequency").value !== null) {
+                start()
+            }
+        })
+
+        document.addEventListener("keydown", (event) => {
+            if (event.code === 'Escape') {
+                reload()
+            }
+        })
+
+        document.addEventListener("keydown", (event) => {
+            if (event.code === 'ArrowUp' && document.getElementById("frequency").value !== null) {
+                var num = parseInt(document.getElementById("frequency").value)
+                document.getElementById("frequency").value = num + 100
+            }
+        })
+
+        document.addEventListener("keydown", (event) => {
+            if (event.code === 'ArrowDown' && document.getElementById("frequency").value !== null) {
+                var num = parseInt(document.getElementById("frequency").value)
+                document.getElementById("frequency").value = num - 100
+            }
+        })
+
+        document.addEventListener("keydown", (event) => {
+            if (event.code === 'KeyW') {
+                var num = parseInt(document.getElementById("time").value)
+                document.getElementById("time").value = num + 1
+
+            }
+        })
+
+        document.addEventListener("keydown", (event) => {
+            if (event.code === 'KeyS') {
+                var num = parseInt(document.getElementById("time").value)
+                document.getElementById("time").value = num - 1
+
+            }
+        })
+    </script>
+</body>
+</html>
