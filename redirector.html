@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<head>
+    <title> redirector01 </title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Stick+No+Bills">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka+One">
+	<link rel="icon" href="favicon.ico" type="image/x-icon" >
+</head>
+
+<style>
+    h1 {
+        font-family: Fredoka One;
+    }
+
+    body {
+        background-color: rgb(22, 22, 22);
+    }
+
+    #titleBox {
+        text-align: center;
+        justify-content: center;
+        display: block;
+        width: 100%;
+        height: 75px;
+        font-size: 50px;
+        font-family: Fredoka One;
+        color:rgb(72, 8, 175);
+    }
+
+    #titleBox2 {
+        text-align: center;
+        justify-content: center;
+        display: block;
+        width: 100%;
+        height: 40px;
+        font-size: 20px;
+        font-family: Fredoka One;
+        color:rgb(72, 8, 175);
+    }
+
+
+    .titleSpans {
+        display: inline-flex;
+        align-items: center;
+        flex-direction: row;
+        margin: -2px;
+        font-size: 50px;
+    }
+
+    button {
+        font-family: Fredoka One;
+        height: 24px;
+        border-radius: 6px;
+        border-width: 0px;
+        margin-left: 10px;
+        background-color: rgb(72, 8, 175);
+        transition-duration: 0.4s;
+        width: 90px;
+    }
+
+    span {
+        display: inline;
+    }
+
+    button span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition-duration: 0.4s;
+    }
+
+    button span:after {
+        content: '\00bb';
+        position: absolute;
+        opacity: 0;
+        top: -14px;
+        right: -15px;
+        transition-duration: 0.4s;
+        color:black;
+    }
+
+    button:hover span {
+        padding-right: 15px;
+    }
+
+    button:hover span:after {
+        opacity: 1;
+        right: 0;
+    }
+    
+    input{
+        height: 25px;
+        width: 530px;
+        border-radius: 6px;
+        border-width: 0px;
+        background-color: rgb(72, 8, 175);
+        font-family: Fredoka One;
+    }
+
+    #paras {
+        font-family: Fredoka One;
+        color:rgb(72, 8, 175);
+
+    }
+
+    .column {
+        float: left;
+        width: 50%;
+    }
+
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    img {
+        height: 55px;
+        width: fit-content;
+        margin: 10px;
+    }
+</style>
+
+<body>
+    <div id = titleBox> 
+        redirector01
+    </div>
+
+    <p></p>
+
+    <div id = "linker">
+        <input id = "linkHere" type = "url" value = "https://" />
+        <button id = "createLink" onclick="newLink()"> submit <span></span> </button>
+    </div>
+
+    <div id = "redirectHere"> </div>
+
+    <script>
+        var linkInput = document.getElementById("linkHere")
+
+        // example --> https://puyallupsd.schoology.com/link?a=&path=https%3A%2F%2Fwww.youtube.com%2Fc%2Fajplusespanol%2Fvideos
+
+        function newLink() {
+            // converting entered url into a uri component
+            var pathName = encodeURIComponent(linkInput.value)
+            var compPath = "https://puyallupsd.schoology.com/link?a=&path=" + pathName
+
+            // creating a new link
+            var newLink = document.createElement("a")
+            var lineBreak = document.createElement("br")
+            newLink.href = compPath
+            newLink.innerHTML = compPath
+            newLink.target = "_blank"
+            var redirectHere = document.getElementById("redirectHere")
+            redirectHere.style.fontFamily = "Fredoka One"
+            redirectHere.style.marginTop = "15px"
+            redirectHere.appendChild(newLink)
+            redirectHere.appendChild(lineBreak)
+        }
+
+        document.addEventListener("keydown", (event) => {
+            if (event.code === 'Enter') {
+                newLink()
+            }
+        })
+    </script>
+</body>
